@@ -1,0 +1,9 @@
+set term png
+set output "complete.png"
+set xrange [0:700]
+set xlabel "Time/s"
+set ylabel "MemUsage/KB"
+plot "complete" w lp
+
+set output "rtpactive.png"
+plot "rtpactive" w lp

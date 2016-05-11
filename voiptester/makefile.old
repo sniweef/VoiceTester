@@ -1,0 +1,43 @@
+SRCDIR = ./src
+CLIDIR = $(SRCDIR)/cli
+BASEDIR = $(SRCDIR)/base
+VOIPCDIR = $(SRCDIR)/voipc
+OBJDIR = ./obj
+DEFINES = -DCX_DEBUG -DVOIP_CFG_ALL
+CFLAGS = -g -Wall $(DEFINES) -I $(SRCDIR)
+LFLAGS = -lreadline  -lpthread -ltermcap
+
+
+vc_shell : cli_main.o cli_cmdmap.o cli_cmdHandler.o hzg_string.o socket.o voipc.o voipc_locale.o voipc_action.o voipc_event.o
+	gcc -o vc_shell $(OBJDIR)/cli_main.o $(OBJDIR)/cli_cmdmap.o $(OBJDIR)/cli_cmdHandler.o $(OBJDIR)/hzg_string.o $(OBJDIR)/socket.o $(OBJDIR)/voipc.o $(OBJDIR)/voipc_locale.o $(OBJDIR)/voipc_action.o $(OBJDIR)/voipc_event.o $(LFLAGS)
+
+cli_main.o :
+	gcc $(CFLAGS) -c $(CLIDIR)/cli_main.c -o $(OBJDIR)/cli_main.o 
+
+cli_cmdmap.o :
+	gcc $(CFLAGS) -c $(CLIDIR)/cli_cmdmap.c -o $(OBJDIR)/cli_cmdmap.o 
+
+cli_cmdHandler.o : 
+	gcc $(CFLAGS) -c $(CLIDIR)/cli_cmdHandler.c -o $(OBJDIR)/cli_cmdHandler.o 
+
+hzg_string.o :
+	gcc $(CFLAGS) -c $(BASEDIR)/hzg_string.c -o $(OBJDIR)/hzg_string.o 
+
+socket.o :
+	gcc $(CFLAGS) -c $(BASEDIR)/socket.c -o $(OBJDIR)/socket.o 
+
+voipc.o : 
+	gcc $(CFLAGS) -c $(VOIPCDIR)/voipc.c -o $(OBJDIR)/voipc.o 
+
+voipc_locale.o :
+	gcc $(CFLAGS) -c $(VOIPCDIR)/voipc_locale.c -o $(OBJDIR)/voipc_locale.o 
+
+voipc_action.o :
+	gcc $(CFLAGS) -c $(VOIPCDIR)/voipc_action.c -o $(OBJDIR)/voipc_action.o 
+
+voipc_event.o :
+	gcc $(CFLAGS) -c $(VOIPCDIR)/voipc_event.c -o $(OBJDIR)/voipc_event.o 
+
+
+clean:
+	rm -rf $(OBJDIR)/*

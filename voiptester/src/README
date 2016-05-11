@@ -1,0 +1,212 @@
+﻿1. src目录结构：
+1.1 base目录：存放基础方法如字符串操作函数、socket函数、VoIP通用头文件等。
+1.2 cli目录：存放跟cli模块相关的文件。
+1.3 contrib目录：存放第三方库，现只放了iniparser库。
+1.4 voiopc目录：测试工具的主体代码。
+1.5 memmonitor.sh：监测某个进程内存使用率的shell脚本，用法: ./memmonitor.sh program 
+	[outputfile interval]，其中program为监视的进程名，outputfile为监测数据的保存文件
+	路径，interval为监测时间间隔，以秒为单位。后两项为可选项。该脚本会生成一个日志文
+	件名字为“$outputfile.log”
+1.6 memtest.py：项目内存测试脚本，直接运行./memtest.py即可，如果需要更改测试用例，修
+	改里面的completeTest跟rtpTest数组即可。现在使用还不是很方便，有待改进。
+1.7 gnuplot.in：gnuplot工具的输入文件，在测试内存结束之后，默认将会生成两个文件：
+	complete和rtpactive。之后可运行gnuplot < gnuplot.in命令生成图片（需安装gnuplot工
+	具）。
+1.8 .vc_action：action模块的配置文件。用于配置触发某action的事件及当前状态，以及配置
+	该action需要发送哪些消息、每条消息所携带的静态参数是什么。另外还存在另外一种比较
+	特别的action，它是由用户按下若干个号码键触发的，详见第4节。
+1.9 .vc_config：测试工具的配置文件。
+1.10 .vc_history：历史命令记录文件。
+
+
+2. 若干重要文件简介
+2.1 CLI入口文件：cli/cli_main.c
+2.2 事件读取及存储的处理文件：voipc/vt_event.c
+2.3 事件处理及相应状态机运作：voipc/vt_fsm.c
+
+
+3. CLI命令系统
+3.1 命令树结构
+	测试工具的命令基本格式为：command [subcmd ...] [arg [subarg]]。即命令下可带有子命
+令（子命令不限个数）或是参数，参数之后又可再跟子参数，但不能再路上其它子命令。所有的
+命令都是采用命令树进行组织的。树的基本结构如下所示：
+	Root
+	 |＿ Cmd1
+	 |	  |＿ SubCmd1
+	 |	  |	  |＿ Arg1
+	 |	  |	  |	   |＿ SubArg1
+	 |	  |	  |	   |＿ SubArg2
+	 |	  |	  |	   |	  |＿ ...
+	 |	  |	  |	   |＿ ...
+	 |	  |	  |＿ Arg2
+	 |	  |	  |＿ ...
+	 |	  |＿ SubCmd2
+	 |	  |＿ ...
+	 |＿ Cmd2
+	 |＿ ...
+	 
+	具体的数据结构定义请参见 cli/cli_cmdmap.h 文件。由于CLI工具支持的命令和参数通常都
+是固定的（有个例外，即action命令，其参数是由.vc_action文件指定的，目前该命令支持的参
+数依旧使用固定的写法，动态加载参数的功能已经通过两个函数初步完成，但因为不完善所以目
+前将它们注释掉了，详见 cli/cli_cmdmap.c 文件），所以在本项目中，命令树是使用静态数组
+实现的。
+	原则上不允许某个命令的子命令和参数名相同，但如果发生此种情况，工具依旧能够正常运
+行。只是在执行的时候会优先将其解释为子命令。
+
+3.2 自动补全功能
+	本工具的自动补全支持两种形式，一是命令或参数的补全，二是缩写形式的补全。功能实现可
+查看cli/cli_main.c 文件。前者和其它补全功能是一样的，后者则是为了实现快速补全而添加的。
+如以下命令：
+	send VOIP_RTP_ACTIVE
+	如果使用普通的命令补全方法，需要分别敲入 TAB R TAB A TAB 键，这操作是比较繁琐的。
+使用缩写形式的补全功能后，如指定VOIP_RTP_ACTIVE的缩写形式为ra，那么只要键入 ra TAB 键
+即可。
+
+3.3 命令执行原理
+	对一条完整的命令，系统会扫描该命令，找到最底层的命令结点，并获取对应的handler函数，
+然后再将命令剩下的所有字符串（过滤掉前导空格）传递给该函数让其执行。这里需要注意的是，
+所有的handler函数都是假设传递给它的字符串没有前导空格的！
+
+3.4 添加一条新命令
+	打开cli/cli_cmdmap.c文件，修改g_topCmdMap数组，假设要添加的命令为new，则在
+g_topCmdMap数组中加入一个元素：
+	{"new", "n", "new docs.", newHandler, subcmdMap, argMap},
+	该元素的格式分别为：
+	{命令名，命令缩写，命令文档，命令分析函数，子命令列表，参数列表}
+	如无子命令列表或参数列表，将最后两个置为NULL即可，另外目前实现中命令缩写不能为NULL，
+如不需要请将其置为""。最后别忘了声明并实现对应的命令分析函数newHandler。
+	子命令列表的添加与上面一样，需注意命令列表应以CMD_MAP_END结尾。参数列表相对比较简
+单，它没有第4、5个参数，其格式为：
+	{参数名，参数缩写，参数文档，子参数列表}
+	参数列表最后应以CMD_ARG_END结尾。
+	另外，如果想添加Debug CLI的命令，以类似的方法修改g_debugCmdMap数组即可。
+
+	
+4. Action配置详解
+4.1 Action基本类型
+	Action的配置内容见1.8节。目前工具支持的Action拥有两种类型，一是普通类型，可以特定
+指定两个参数：Event和CurState，当当前状态是CurState且发生了事件Event时，该Action将得以
+执行；另外一种相对简单，它指定了某个特定组合号码（需以*号开头），如*01，当用户摘机后并
+分别按下*01键，在停止操作一段时间之后即可执行对应Action。
+	Action的动态加载功能代码请查看voipc/vt_action.c文件的vt_loadAction函数。
+Action的运行原理请参考第5节和voipc/vt_fsm.c文件。
+
+4.2 Action配置格式
+4.2.1 普通Action
+	其基本格式为：
+	[ActionName]
+	Event1 		= ...
+	CurState1	= ...
+	Event2		= ...
+	CurState2	= ...
+	...
+	CmdType1	= ...
+	StaticData1 = ...
+	CmdType2	= ...
+	StaticData2 = ...
+	...
+	其中ActionName为此Action的名称，注意它不能以Key开头！
+	EventN和CurStateN可以有若干对（保持对应，如果CurStateN没有设置则其值将为
+VT_STATE_MAX），其后跟上的序号N应由1依次递增，不符号此规则的Event将被忽略。另外可以将
+CurStateN设置为VT_STATE_MAX，该值表示无论当前状态是什么，只要发生了对应事件，则执行此
+Action。注意：此时有可能会将由Event驱动的其它Action的设置覆盖掉！因此最好将CurStateN参
+数为VT_STATE_MAX放到配置文件的前前面。
+	后面的CmdTypeN指定依次要发送给Server的消息类型如VOIP_RTP_ACTIVE，StaticDataN则为该
+消息所需要的静态数据项，如VOIP_TONE_PLAY一般需要三个参数：endpt、tone和time，其中endpt
+通常都是动态变化的，而tone和time则是固定的，因此VOIP_TONE_PLAY对应的StaticDataN即为后
+两个参数的值。
+	此功能的实现请参考第5节。
+
+4.2.2 数字Action
+	其基本格式为：
+	[Key*digit]
+	CmdType1	= ...
+	StaticData1 = ...
+	CmdType2	= ...
+	StaticData2 = ...
+	...
+	这种类型的Action名称需要以Key开头，其后跟上*以及自定义的数字组合键(0-9)。需要注意
+的是：这类Action只在用户摘机后第一次拨号后有效！通话过程中按下这些组合键是不会触发此类
+Action的运行。
+	此类Action中，所有的数字组合键都需要以*键开头，此规则由voipc/vt_fsm.c中的
+l_numHandMap数组定义。该数组元素有两个数据成员：prefixNumber和handler，当用户拨打的号
+码开头为某个数组元素的prefixNumber时，之后会执行该prefixNumber对应的handler函数。因此
+可以通过修改该数组来实现其它自定义的规则（如将号码前的0自动删除）。
+
+
+5. 状态机模型
+5.1 基本数据结构
+	状态机实际上是由若干个VT_FSM_CTX实例组成的列表，而VT_FSM_CTX结构的定义如下所示：
+	typedef struct _VT_FSM_CTX
+	{
+		VT_EVENT_TYPE       evenType;           /*触发的事件类型*/
+		VT_STATE            curState;           /*当前状态*/
+		VT_STATE			newState;			/*新的状态*/
+		EVENT_HANDLER       eventHandler;       /*事件处理函数*/
+		FAILED_HANDLER      failedHandler;      /*当eventHandler运行失败或对应Action*/
+												/*运行失败时执行*/
+		ACTION_DATA_SETER   actionDataSeter;    /*Action函数所需参数的构造器*/
+		int                 actionIndex;        /*指定要执行的Action的索引值*/
+	} VT_FSM_CTX;
+	其中curState成员和newState成员都可为VT_STATE_MAX。curState为VT_STATE_MAX则意味着忽
+略当前状态，如果你不想忽略所有状态，那么可在此元素之前添加另外一个元素去指定特定的状态。
+newState若为VT_STATE_MAX则意味着当前状态不会被修改。
+	由于状态机里面的状态转变和对应处理函数在运行前就已知的，所以状态机的主体实现是采用
+一个静态数组。
+	
+5.2 状态机的运行原理
+5.2.1 状态机与Action
+	仔细观察VT_FSM_CTX结构体的所有成员，不难发现除了actionIndex之外其它成员基本都是固
+定的，我们唯一需要动态设置的是actionIndex的值。而该值的设置应该在从.vc_action文件中动
+态加载Action时完成。回顾4.2.1节。每个Action都有若干对(Event, CurState)。它们分别与
+VT_FSM_CTX的成员eventType和curState对应。但由于特殊参数值VT_STATE_MAX的存在，因此
+CurState之间的组合存在以下几种情况（假设对应的event相同）：
+┌-------------------------------------------------┬-----------------------------------┐
+|			VT_FSM_CTX数组::CurState			  |		 .vc_action::CurState	  	  |
+|-------------------------------------------------┼-----------------------------------|
+|		两者完全一样且都不为VT_STATE_MAX		  | 两者完全一样且都不为VT_STATE_MAX  |	
+|-------------------------------------------------┼-----------------------------------| 
+| 同一Event对应的若干个State中包含VT_STATE_MAX	  |		  	  VT_STATE_MAX			  |
+|-------------------------------------------------┼-----------------------------------|
+| 同一Event对应的若干个State中不包含VT_STATE_MAX  |			  VT_STATE_MAX			  |
+└ ------------------------------------------------┴-----------------------------------┘	
+	我们将以上三种情况分别编号为1、2、3。情况1比较简单，直接修改对应元素的actionIndex
+值即可。对于情况2，我们需要设置该Event对应的所有VT_FSM_CTX元素的actionIndex值。至于情况
+3，因为VT_FSM_CTX静态数组中该Event对应的CurState值没有VT_STATE_MAX，我们也无法在数组中
+动态地增加元素，所以需要有另外一种机制来实现此功能。
+	实现的方法有两种：一是将VT_FSM_CTX静态数组改使用链表实现，但这样一来我们就需要在初
+始化的时候使用很多条insert语句；二是再另外添加一条动态VT_FSM_CTX链表。本项目中使用了第
+二种方法。因此对情况3的处理方法如下：更新VT_FSM_CTX静态数组该Event对应的所有元素的
+actionIndex值，并在动态VT_FSM_CTX链表中添加一个结点。这样一来，对另外一种情况，即
+.vc_action指定的(Event, CurState)如无法在VT_FSM_CTX数组中找到匹配元素，也可以轻易解决。
+	但需注意的是，动态链表不同于静态数组，它功能比较特殊，通常是用来实现一些自定义功能。
+如果它也具备修改当前状态的功能，状态机的运转可能会变得比较混乱，所以实现中动态链表的结
+点的newState成员值均为VT_STATE_MAX(即不会修改当前状态)，另外，其eventHandler和
+failedHandler成员函数均没有干什么正事，actionDataSeter则是简单的设置enpdt字符串。
+	
+5.2.2 状态机的运行原理与定时器
+	状态机由两部分组成：VT_FSM_CTX静态数组和动态链表。因为动态链表并不会更改当前状态，
+所以当一个事件来临时会优先搜索并运行动态链表里的结点，之后再搜索静态数组。
+	至于搜索和运行的功能实现则比较简单，基本就是查表和运行回调函数。所以状态的工作重点
+主要是在编写VT_FSM_CTX静态数组的元素以及相应的事件处理函数。
+	状态机的运行还需要加入定时器的功能，最典型的应用就是在用户拨号后暂停操作一段时间后
+就认为用户已经完成拨号。为了统一执行所有定时器，我使用了以下结构体来抽象定时器：
+	typedef struct _VT_TIMER
+	{
+		int timerId;				/*定时器ID，每个定时器应拥有不同ID*/
+		struct timeval finalTime;   /*此定时器超时的时间，是最终的时间而不是时间间隔*/
+		TIMEOUT_HANDLER handler;	/*超时后的处理函数*/
+		int data;					/*handler函数所需要的参数*/
+		struct _VT_TIMER *pNext;	/*指向下个定时器*/
+	} VT_TIMER;
+	在使用链表来管理定时器后定时器的超时判断和处理都可得到统一时间，新加定时器一般只需
+要调用vt_registerTimer函数来注册一个新的定时器，之后根据需要调用vt_updateTimer来
+更新定时器。
+	
+5.2.3 添加状态转换规则
+	修改voipc/vt_fsm.c文件里的l_fsmCtxs数组，在VT_FSM_CTX_END之前增加一个元素，该元
+素为VT_FSM_CTX结构体实例，然后去实现对应的几个Handler，另外，如果其Action没有在
+.vc_action文件中指定，请遵循4.2.1节去增加一个action。
+	对于一些比较简单的状态转换规则，如该规则不修改当前状态，不需要执行额外操作，且对应
+Action函数只需要endpt这样一个动态参数(或者可以将其它动态参数写入配置文件中)，则可在
+.vc_action里面简单地添加一个Action并指定触发事件和当前状态即可。

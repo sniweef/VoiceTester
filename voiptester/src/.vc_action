@@ -1,0 +1,122 @@
+; The format of action
+; [Action Name]
+; EventN	= VT_EVENT_N ;The trigger event, can have serveral value
+; CurStateN = VT_STATE_N ;The current state. Setting VT_STATE_MAX
+;						  means all state will match. Warnning: It 
+;						  may override other action! You can put these
+;						  ation at the beginning of file.
+; CmdTypeN	= VOIP_N	; The type of command which will be sent
+; StaticDataN = Data	; The data need by sendding above command
+
+[OffHook]
+Event1		= VT_EVENT_HOOK_OFF
+CurState1	= VT_STATE_MAX 
+CmdType1	= VOIP_SLIC_CONTROL
+StaticData1 = 4
+CmdType2	= VOIP_SLIC_CONTROL
+StaticData2	= 2
+CmdType3	= VOIP_TONE_PLAY
+StaticData3	= 4 200
+
+[AcceptCall]
+Event1		= VT_EVENT_HOOK_OFF
+CurState1	= VT_STATE_BE_CALLED
+CmdType1	= VOIP_SLIC_CONTROL
+StaticData1	= 2  ;ctrl
+CmdType2	= VOIP_RING_STOP
+StaticData2	=	;empty
+CmdType3	= VOIP_SLIC_CONTROL
+StaticData3	= 2
+CmdType4	= VOIP_TONE_PLAY
+StaticData4	= 0 200  ;tone time
+CmdType5	= VOIP_RTP_ACTIVE
+StaticData5 = 
+
+[BeCalled]
+Event1		= VT_EVENT_CALLING
+CurState1	= VT_STATE_HOOK_ON
+CmdType1	= VOIP_CHANNEL_OPEN
+StaticData1 = -1 0 0 0 0  ;channel(-1 means decided by program) vadEnable gainSpeaker gainMic intt38Enable
+CmdType2	= VOIP_SLIC_CONTROL
+StaticData2	= 4
+CmdType3	= VOIP_CID_PLAY
+StaticData3	= hzg	;name
+CmdType4	= VOIP_SLIC_CONTROL
+StaticData4 = 2
+CmdType5	= VOIP_RING_START
+StaticData5 = 0	;ring type
+
+
+[BeOnHook]
+Event1		= VT_EVENT_CALL_DOWN
+CurState1	= VT_STATE_TALKING
+CmdType1	= VOIP_RTP_DEACTIVE
+StaticData1	= 
+CmdType2	= VOIP_SLIC_CONTROL
+StaticData2 = 4
+CmdType3	= VOIP_TONE_PLAY
+StaticData3 = 1 200 ;tone time
+
+[Calling]
+Event1		= VT_EVENT_NUM_CALLED
+CurState1	= VT_STATE_DTMF_START
+CmdType1	= VOIP_CHANNEL_OPEN
+StaticData1 = -1 0 0 0 0
+CmdType2	= VOIP_SLIC_CONTROL
+StaticData2 = 2
+CmdType3	= VOIP_TONE_PLAY
+StaticData3 = 2 100
+
+[CallingFailed]
+Event1		= VT_EVENT_NUM_ERR
+CurState1	= VT_STATE_DTMF_START
+Event2		= VT_EVENT_CALL_REJECT
+CurState2	= VT_STATE_CALLING
+CmdType1	= VOIP_TONE_PLAY
+StaticData1	= 4 100
+
+[MissCall]
+Event1		= VT_EVENT_CALL_DOWN
+CurState1	= VT_STATE_BE_CALLED
+CmdType1	= VOIP_SLIC_CONTROL
+StaticData1 = 4
+CmdType2	= VOIP_RING_STOP
+StaticData2	=
+
+
+[OnHook]
+Event1		= VT_EVENT_HOOK_ON
+CurState1	= VT_STATE_MAX
+CmdType1	= VOIP_SLIC_CONTROL
+StaticData1	= 3
+CmdType2	= VOIP_TONE_PLAY
+StaticData2	= 0 200
+
+
+[Talking]
+Event1		= VT_EVENT_CALL_ACCEPT
+CurState1	= VT_STATE_CALLING
+CmdType1	= VOIP_SLIC_CONTROL
+StaticData1	= 2
+CmdType2	= VOIP_TONE_PLAY
+StaticData2	= 0 200
+CmdType3	= VOIP_RTP_ACTIVE
+StaticData3	= 
+
+; When user calls *01, this action will be triggered.
+; And you can add new action like this. But make sure
+; that the action name begins with "Key*".
+[Key*01]
+CmdType1	= VOIP_TONE_PLAY
+StaticData1 = 0 200
+CmdType2	= VOIP_TONE_PLAY
+StaticData2	= 1 200
+CmdType3	= VOIP_TONE_PLAY
+StaticData3	= 2 200
+CmdType4	= VOIP_TONE_PLAY
+StaticData4	= 3 200
+CmdType5	= VOIP_TONE_PLAY
+StaticData5	= 4 200
+CmdType6	= VOIP_TONE_PLAY
+StaticData6	= 10 200
+

@@ -1,0 +1,53 @@
+;
+
+[VoIPServer]
+IP = 192.168.1.1
+Port = 10002
+;Port = 20005
+
+[VoIPClient]
+ListenPort = 15000
+
+[OuterVoIPClient]
+IP = 127.0.0.1
+ListenPort = 16000
+Number = 789
+
+; Dont modify below section unless you know what you are doing
+[DTMFDigitMap] 
+Key0 = 48
+Key1 = 49
+Key2 = 50
+Key3 = 51
+Key4 = 52
+Key5 = 53
+Key6 = 54
+Key7 = 55
+Key8 = 56
+Key9 = 57
+Key10 = 42 ;key *
+Key11 = 35 ;key #
+
+; Dont modify below section unless you know what you are doing
+[Endpt0]
+Port = 11000        ; The rtp data port
+CtrlPort = 11001	; The rtp control port
+Number = 123		; The phone number
+
+; Dont modify below section unless you know what you are doing
+[Endpt1]
+Port = 12000
+CtrlPort = 12001
+Number = 456
+
+[MsgQueue]
+QueueMax = 50
+
+[Debug]
+BreakMax = 8 ;The max number of breakpoints
+
+[Readline]
+HistorySize = 100
+
+[EventQueue]
+EventMax = 3

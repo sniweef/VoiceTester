@@ -1,0 +1,171 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BRK_MAX	voipc_action.h	17;"	d
+CALL_NUM_MAX	voipc.c	27;"	d	file:
+CIRCLE_ADD	voipc.c	37;"	d	file:
+CMTXTMAP	voipc.c	/^} CMTXTMAP;$/;"	t	typeref:struct:_CMTXTMAP	file:
+CM_TIMEOUT_SEC	voipc.c	31;"	d	file:
+CM_TIMEOUT_USEC	voipc.c	35;"	d	file:
+CONN_STATUS	voipc.c	/^} CONN_STATUS;$/;"	t	typeref:struct:_CONN_STATUS	file:
+DBG_ACTION	voipc_action.c	25;"	d	file:
+MSG_QUEUE	voipc.c	/^} MSG_QUEUE;$/;"	t	typeref:struct:_MSG_QUEUE	file:
+QUEUE_MAX	voipc.c	26;"	d	file:
+VOIPC_ACTION	voipc_action.c	/^typedef VOIPC_ACTION_E *VOIPC_ACTION;$/;"	t	file:
+VOIPC_ACTION_DBG	voipc_action.c	/^} VOIPC_ACTION_DBG;$/;"	t	typeref:struct:_VOIPC_ACTION_DBG	file:
+VOIPC_ACTION_E	voipc_action.c	/^} VOIPC_ACTION_E;$/;"	t	typeref:struct:_VOIPC_ACTION_E	file:
+VOIPC_CHANNEL_MAX	voipc.h	24;"	d
+VOIPC_ENDPT_MAX	voipc.h	25;"	d
+VOIPC_FAILED	voipc.h	22;"	d
+VOIPC_SERVER_IP	voipc.h	18;"	d
+VOIPC_SERVER_PORT	voipc.h	19;"	d
+VOIPC_SUCCESS	voipc.h	21;"	d
+VOIP_LOCALE_MAX	voipc_locale.c	21;"	d	file:
+_CMTXTMAP	voipc.c	/^typedef struct _CMTXTMAP$/;"	s	file:
+_CMTXTMAP::id	voipc.c	/^    int id;    \/* index *\/$/;"	m	struct:_CMTXTMAP	file:	access:public
+_CMTXTMAP::txt	voipc.c	/^	char *txt; \/* visible string *\/$/;"	m	struct:_CMTXTMAP	file:	access:public
+_CONN_STATUS	voipc.c	/^typedef struct _CONN_STATUS$/;"	s	file:
+_CONN_STATUS::dspStart	voipc.c	/^	int dspStart;$/;"	m	struct:_CONN_STATUS	file:	access:public
+_CONN_STATUS::fxoState	voipc.c	/^	int fxoState;$/;"	m	struct:_CONN_STATUS	file:	access:public
+_CONN_STATUS::fxsState	voipc.c	/^	int fxsState;$/;"	m	struct:_CONN_STATUS	file:	access:public
+_CONN_STATUS::sockFd	voipc.c	/^	int sockFd;$/;"	m	struct:_CONN_STATUS	file:	access:public
+_CONN_STATUS::tid	voipc.c	/^	pthread_t tid;        \/*The id of thread which is reading message from server.*\/$/;"	m	struct:_CONN_STATUS	file:	access:public
+_MSG_QUEUE	voipc.c	/^typedef struct _MSG_QUEUE$/;"	s	file:
+_MSG_QUEUE::end	voipc.c	/^    int end;$/;"	m	struct:_MSG_QUEUE	file:	access:public
+_MSG_QUEUE::msgQueue	voipc.c	/^    VOIP_DSPMSG msgQueue[QUEUE_MAX];$/;"	m	struct:_MSG_QUEUE	file:	access:public
+_MSG_QUEUE::nread	voipc.c	/^    int nread;$/;"	m	struct:_MSG_QUEUE	file:	access:public
+_MSG_QUEUE::start	voipc.c	/^    int start;$/;"	m	struct:_MSG_QUEUE	file:	access:public
+_VOIPC_ACTION_DBG	voipc_action.c	/^typedef struct _VOIPC_ACTION_DBG$/;"	s	file:
+_VOIPC_ACTION_DBG::action	voipc_action.c	/^    VOIPC_ACTION action;        \/* The action to be dubug. *\/$/;"	m	struct:_VOIPC_ACTION_DBG	file:	access:public
+_VOIPC_ACTION_DBG::breakpoints	voipc_action.c	/^    int breakpoints[BRK_MAX];$/;"	m	struct:_VOIPC_ACTION_DBG	file:	access:public
+_VOIPC_ACTION_E	voipc_action.c	/^typedef struct _VOIPC_ACTION_E$/;"	s	file:
+_VOIPC_ACTION_E::fpFunc	voipc_action.c	/^    int (*fpFunc)(const char *pData);   \/*pData = pEndpt + pExtra*\/$/;"	m	struct:_VOIPC_ACTION_E	file:	access:public
+_VOIPC_ACTION_E::pEndpt	voipc_action.c	/^    const char *pEndpt;                 \/*Most handler need endpt argument.*\/$/;"	m	struct:_VOIPC_ACTION_E	file:	access:public
+_VOIPC_ACTION_E::pExtra	voipc_action.c	/^    const char *pExtra;                 \/*WARN: pExtra should begin with space. *\/$/;"	m	struct:_VOIPC_ACTION_E	file:	access:public
+__oal_vrg_cm_tr104_locale_map	voipc_locale.c	/^typedef struct __oal_vrg_cm_tr104_locale_map$/;"	s	file:
+__oal_vrg_cm_tr104_locale_map::nVrgId	voipc_locale.c	/^    int      nVrgId;$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+__oal_vrg_cm_tr104_locale_map::pCmTxt	voipc_locale.c	/^    char  *  pCmTxt;$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+__oal_vrg_cm_tr104_locale_map::pName	voipc_locale.c	/^    char         pName[64];$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+__oal_vrg_cm_tr104_locale_map::pTr104Txt	voipc_locale.c	/^    char  *  pTr104Txt;$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+action	voipc_action.c	/^    VOIPC_ACTION action;        \/* The action to be dubug. *\/$/;"	m	struct:_VOIPC_ACTION_DBG	file:	access:public
+actionAcceptCall	voipc_action.c	/^int actionAcceptCall(const char *pData)$/;"	f	signature:(const char *pData)
+actionAcceptCall	voipc_action.h	/^int actionAcceptCall(const char *pData);$/;"	p	signature:(const char *pData)
+actionBeCalled	voipc_action.c	/^int actionBeCalled(const char *pData)$/;"	f	signature:(const char *pData)
+actionBeCalled	voipc_action.h	/^int actionBeCalled(const char *pData);$/;"	p	signature:(const char *pData)
+actionBeOnHookCall	voipc_action.c	/^int actionBeOnHookCall(const char *pData)$/;"	f	signature:(const char *pData)
+actionBeOnHookCall	voipc_action.h	/^int actionBeOnHookCall(const char *pData);$/;"	p	signature:(const char *pData)
+actionCalling	voipc_action.c	/^int actionCalling(const char *pData)$/;"	f	signature:(const char *pData)
+actionCalling	voipc_action.h	/^int actionCalling(const char *pData);$/;"	p	signature:(const char *pData)
+actionGo	voipc_action.c	/^LOCAL int actionGo(VOIPC_ACTION_E action[])$/;"	f	signature:(VOIPC_ACTION_E action[])
+actionGo	voipc_action.c	/^LOCAL int actionGo(VOIPC_ACTION_E action[]);$/;"	p	file:	signature:(VOIPC_ACTION_E action[])
+actionInitserver	voipc.h	/^int actionInitserver(const char *pLocale);$/;"	p	signature:(const char *pLocale)
+actionInitserver	voipc_action.c	/^int actionInitserver(const char *pData)$/;"	f	signature:(const char *pData)
+actionInitserver	voipc_action.h	/^int actionInitserver(const char *pData);$/;"	p	signature:(const char *pData)
+actionOffHook	voipc_action.c	/^int actionOffHook(const char *pData)$/;"	f	signature:(const char *pData)
+actionOffHook	voipc_action.h	/^int actionOffHook(const char *pData);$/;"	p	signature:(const char *pData)
+actionOnHook	voipc_action.c	/^int actionOnHook(const char *pData)$/;"	f	signature:(const char *pData)
+actionOnHook	voipc_action.h	/^int actionOnHook(const char *pData);$/;"	p	signature:(const char *pData)
+actionTalking	voipc_action.c	/^int actionTalking(const char *pData)$/;"	f	signature:(const char *pData)
+actionTalking	voipc_action.h	/^int actionTalking(const char *pData);$/;"	p	signature:(const char *pData)
+breakpoints	voipc_action.c	/^    int breakpoints[BRK_MAX];$/;"	m	struct:_VOIPC_ACTION_DBG	file:	access:public
+cmTxtMapById	voipc.c	/^char * cmTxtMapById(int id)$/;"	f	signature:(int id)
+cmTxtMapById	voipc.h	/^char * cmTxtMapById(int id);$/;"	p	signature:(int id)
+dspStart	voipc.c	/^	int dspStart;$/;"	m	struct:_CONN_STATUS	file:	access:public
+end	voipc.c	/^    int end;$/;"	m	struct:_MSG_QUEUE	file:	access:public
+fpFunc	voipc_action.c	/^    int (*fpFunc)(const char *pData);   \/*pData = pEndpt + pExtra*\/$/;"	m	struct:_VOIPC_ACTION_E	file:	access:public
+fxoState	voipc.c	/^	int fxoState;$/;"	m	struct:_CONN_STATUS	file:	access:public
+fxsState	voipc.c	/^	int fxsState;$/;"	m	struct:_CONN_STATUS	file:	access:public
+getMsgFromServer	voipc.c	/^LOCAL void *getMsgFromServer(void *arg)$/;"	f	signature:(void *arg)
+getMsgFromServer	voipc.c	/^LOCAL void *getMsgFromServer(void *arg);$/;"	p	file:	signature:(void *arg)
+getMsgWait	voipc.c	/^LOCAL int getMsgWait(VOIP_DSPMSG *pMsg)$/;"	f	signature:(VOIP_DSPMSG *pMsg)
+getMsgWait	voipc.c	/^LOCAL int getMsgWait(VOIP_DSPMSG *pMsg);$/;"	p	file:	signature:(VOIP_DSPMSG *pMsg)
+handleDspEvent	voipc.c	/^LOCAL BOOL handleDspEvent(VOIP_DSPMSG *pDspMsg)$/;"	f	signature:(VOIP_DSPMSG *pDspMsg)
+handleDspEvent	voipc.c	/^LOCAL BOOL handleDspEvent(VOIP_DSPMSG *pDspmsg);$/;"	p	file:	signature:(VOIP_DSPMSG *pDspmsg)
+id	voipc.c	/^    int id;    \/* index *\/$/;"	m	struct:_CMTXTMAP	file:	access:public
+initConnStatus	voipc.c	/^LOCAL void initConnStatus()$/;"	f
+initMsgQueue	voipc.c	/^LOCAL void initMsgQueue()$/;"	f
+initMsgQueue	voipc.c	/^LOCAL void initMsgQueue();$/;"	p	file:
+l_acceptCallAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_acceptCallAction[] =$/;"	v
+l_beCalledAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_beCalledAction[] =$/;"	v
+l_beOnHookAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_beOnHookAction[] =$/;"	v
+l_callingAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_callingAction[] =$/;"	v
+l_connStatus	voipc.c	/^LOCAL CONN_STATUS l_connStatus = {\/*-1,*\/-1, -1, -1, 0, 0};$/;"	v
+l_connectedSem	voipc.c	/^sem_t l_connectedSem;   \/*son thread use it to wait for connection success.*\/$/;"	v
+l_initserverAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_initserverAction[] =$/;"	v
+l_msgQueue	voipc.c	/^LOCAL MSG_QUEUE l_msgQueue;$/;"	v
+l_newMsgSem	voipc.c	/^sem_t l_newMsgSem;      \/*Will be post when get new message from server.*\/$/;"	v
+l_oalLocaleMap	voipc_locale.c	/^static oal_vrg_cm_tr104_locale_map_t  l_oalLocaleMap[] =$/;"	v	file:
+l_offHookAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_offHookAction[] =$/;"	v
+l_onHookAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_onHookAction[] =$/;"	v
+l_srvMsgMap	voipc.c	/^LOCAL const CMTXTMAP l_srvMsgMap[] =$/;"	v
+l_talkingAction	voipc_action.c	/^LOCAL VOIPC_ACTION_E l_talkingAction[] =$/;"	v
+msgQueue	voipc.c	/^    VOIP_DSPMSG msgQueue[QUEUE_MAX];$/;"	m	struct:_MSG_QUEUE	file:	access:public
+nVrgId	voipc_locale.c	/^    int      nVrgId;$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+nread	voipc.c	/^    int nread;$/;"	m	struct:_MSG_QUEUE	file:	access:public
+oalVoice_mapAlpha2toVrg	voipc_locale.c	/^int oalVoice_mapAlpha2toVrg(const char * locale,$/;"	f	signature:(const char * locale, int * id, uint8_t * found, unsigned int len)
+oal_vrg_cm_tr104_locale_map_t	voipc_locale.c	/^} oal_vrg_cm_tr104_locale_map_t;$/;"	t	typeref:struct:__oal_vrg_cm_tr104_locale_map	file:
+pCmTxt	voipc_locale.c	/^    char  *  pCmTxt;$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+pEndpt	voipc_action.c	/^    const char *pEndpt;                 \/*Most handler need endpt argument.*\/$/;"	m	struct:_VOIPC_ACTION_E	file:	access:public
+pExtra	voipc_action.c	/^    const char *pExtra;                 \/*WARN: pExtra should begin with space. *\/$/;"	m	struct:_VOIPC_ACTION_E	file:	access:public
+pName	voipc_locale.c	/^    char         pName[64];$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+pTr104Txt	voipc_locale.c	/^    char  *  pTr104Txt;$/;"	m	struct:__oal_vrg_cm_tr104_locale_map	file:	access:public
+printMsg	voipc.c	/^LOCAL int printMsg(int msgNumber, int start)$/;"	f	signature:(int msgNumber, int start)
+printMsg	voipc.c	/^LOCAL int printMsg(int msgNumber, int start);$/;"	p	file:	signature:(int msgNumber, int start)
+putMsg	voipc.c	/^LOCAL void putMsg(VOIP_DSPMSG *pDspMsg)$/;"	f	signature:(VOIP_DSPMSG *pDspMsg)
+putMsg	voipc.c	/^LOCAL void putMsg(VOIP_DSPMSG *pDspMsg);$/;"	p	file:	signature:(VOIP_DSPMSG *pDspMsg)
+sendAllChannelDefault	voipc_action.c	/^LOCAL int sendAllChannelDefault(const char *pData)$/;"	f	signature:(const char *pData)
+sendAllChannelDefault	voipc_action.c	/^LOCAL int sendAllChannelDefault(const char *pData);$/;"	p	file:	signature:(const char *pData)
+sendLocaleInternal	voipc.c	/^LOCAL int sendLocaleInternal(const char *pLocale, VOIP_DSPMSG_CMD cmd, BOOL isWait)$/;"	f	signature:(const char *pLocale, VOIP_DSPMSG_CMD cmd, BOOL isWait)
+sendLocaleInternal	voipc.c	/^LOCAL int sendLocaleInternal(const char *pLocale, VOIP_DSPMSG_CMD cmd, BOOL isWait);$/;"	p	file:	signature:(const char *pLocale, VOIP_DSPMSG_CMD cmd, BOOL isWait)
+setEndpt	voipc.c	/^LOCAL int setEndpt(char *pBuf, char *pSrc)$/;"	f	signature:(char *pBuf, char *pSrc)
+setEndpt	voipc_action.c	/^LOCAL inline void setEndpt(VOIPC_ACTION_E action[], const char *pData)$/;"	f	signature:(VOIPC_ACTION_E action[], const char *pData)
+setEndpt	voipc_action.c	/^LOCAL inline void setEndpt(VOIPC_ACTION_E action[], const char *pData);$/;"	p	file:	signature:(VOIPC_ACTION_E action[], const char *pData)
+sockFd	voipc.c	/^	int sockFd;$/;"	m	struct:_CONN_STATUS	file:	access:public
+start	voipc.c	/^    int start;$/;"	m	struct:_MSG_QUEUE	file:	access:public
+tid	voipc.c	/^	pthread_t tid;        \/*The id of thread which is reading message from server.*\/$/;"	m	struct:_CONN_STATUS	file:	access:public
+txt	voipc.c	/^	char *txt; \/* visible string *\/$/;"	m	struct:_CMTXTMAP	file:	access:public
+voipc_connectToServer	voipc.c	/^int voipc_connectToServer(char *pIPStr, uint16_t port)$/;"	f	signature:(char *pIPStr, uint16_t port)
+voipc_connectToServer	voipc.h	/^int voipc_connectToServer(char *pIPStr, uint16_t port);$/;"	p	signature:(char *pIPStr, uint16_t port)
+voipc_getSystime	voipc.c	/^LOCAL void voipc_getSystime(struct tm *p_local)$/;"	f	signature:(struct tm *p_local)
+voipc_getSystime	voipc.c	/^LOCAL void voipc_getSystime(struct tm *p_local);$/;"	p	file:	signature:(struct tm *p_local)
+voipc_handleDspevent	voipc_event.c	/^void voipc_handleDspevent(VOIP_DSPMSG *pDspmsg)$/;"	f	signature:(VOIP_DSPMSG *pDspmsg)
+voipc_handleDspevent	voipc_event.h	/^void voipc_handleDspevent(VOIP_DSPMSG *pDspmsg);$/;"	p	signature:(VOIP_DSPMSG *pDspmsg)
+voipc_msgAll	voipc.c	/^int voipc_msgAll()$/;"	f
+voipc_msgAll	voipc.h	/^int voipc_msgAll();$/;"	p	signature:()
+voipc_msgClear	voipc.c	/^int voipc_msgClear()$/;"	f
+voipc_msgClear	voipc.h	/^int voipc_msgClear();$/;"	p	signature:()
+voipc_msgNew	voipc.c	/^int voipc_msgNew()$/;"	f
+voipc_msgNew	voipc.h	/^int voipc_msgNew();$/;"	p	signature:()
+voipc_msgRefresh	voipc.c	/^int voipc_msgRefresh()$/;"	f
+voipc_msgRefresh	voipc.h	/^int voipc_msgRefresh();$/;"	p	signature:()
+voipc_sendChannelDefault	voipc.c	/^int voipc_sendChannelDefault(int channel)$/;"	f	signature:(int channel)
+voipc_sendChannelDefault	voipc.h	/^int voipc_sendChannelDefault(int channel);$/;"	p	signature:(int channel)
+voipc_sendChannelOpen	voipc.c	/^int voipc_sendChannelOpen(int endpt, int channel, int vadEnable, int gainSpeaker, int gainMic,$/;"	f	signature:(int endpt, int channel, int vadEnable, int gainSpeaker, int gainMic, int t38Enable)
+voipc_sendChannelOpen	voipc.h	/^int voipc_sendChannelOpen(int endpt, int channel, int vadEnable, int gainSpeaker, int gainMic, int t38Enable);$/;"	p	signature:(int endpt, int channel, int vadEnable, int gainSpeaker, int gainMic, int t38Enable)
+voipc_sendCidPlay	voipc.c	/^int voipc_sendCidPlay(int endpt, const char num[], const char name[])$/;"	f	signature:(int endpt, const char num[], const char name[])
+voipc_sendCidPlay	voipc.h	/^int voipc_sendCidPlay(int endpt, const char num[], const char name[]);$/;"	p	signature:(int endpt, const char num[], const char name[])
+voipc_sendDspDefault	voipc.c	/^int voipc_sendDspDefault(const char *pLocale)$/;"	f	signature:(const char *pLocale)
+voipc_sendDspDefault	voipc.h	/^int voipc_sendDspDefault(const char *localeAlpha2);$/;"	p	signature:(const char *localeAlpha2)
+voipc_sendDspStart	voipc.c	/^int voipc_sendDspStart()$/;"	f
+voipc_sendDspStart	voipc.h	/^int voipc_sendDspStart();$/;"	p	signature:()
+voipc_sendDspStop	voipc.c	/^int voipc_sendDspStop()$/;"	f
+voipc_sendDspStop	voipc.h	/^int voipc_sendDspStop();$/;"	p	signature:()
+voipc_sendMsgToServer	voipc.c	/^LOCAL int voipc_sendMsgToServer(VOIP_DSPMSG_CMD cmd, void *buf, int len)$/;"	f	signature:(VOIP_DSPMSG_CMD cmd, void *buf, int len)
+voipc_sendMsgToServer	voipc.c	/^LOCAL int voipc_sendMsgToServer(VOIP_DSPMSG_CMD cmd, void *buf, int len);$/;"	p	file:	signature:(VOIP_DSPMSG_CMD cmd, void *buf, int len)
+voipc_sendRingStart	voipc.c	/^int voipc_sendRingStart(int endpt, int type)$/;"	f	signature:(int endpt, int type)
+voipc_sendRingStart	voipc.h	/^int voipc_sendRingStart(int endpt, int type);$/;"	p	signature:(int endpt, int type)
+voipc_sendRingStop	voipc.c	/^int voipc_sendRingStop(int endpt)$/;"	f	signature:(int endpt)
+voipc_sendRingStop	voipc.h	/^int voipc_sendRingStop(int endpt);$/;"	p	signature:(int endpt)
+voipc_sendRtpActive	voipc.c	/^int voipc_sendRtpActive(VOIP_MEDIA *pMedia)$/;"	f	signature:(VOIP_MEDIA *pMedia)
+voipc_sendSlicControl	voipc.c	/^int voipc_sendSlicControl(int endpt, VOIP_SLICCTRL ctrl)$/;"	f	signature:(int endpt, VOIP_SLICCTRL ctrl)
+voipc_sendSlicControl	voipc.h	/^int voipc_sendSlicControl(int endpt, VOIP_SLICCTRL ctrl);$/;"	p	signature:(int endpt, VOIP_SLICCTRL ctrl)
+voipc_sendSlicLocale	voipc.c	/^int voipc_sendSlicLocale(const char *pLocale)$/;"	f	signature:(const char *pLocale)
+voipc_sendSlicLocale	voipc.h	/^int voipc_sendSlicLocale(const char *localeAlpha2);$/;"	p	signature:(const char *localeAlpha2)
+voipc_sendTonePlay	voipc.c	/^int voipc_sendTonePlay(int endpt, EPSIG tone, int time)$/;"	f	signature:(int endpt, EPSIG tone, int time)
+voipc_sendTonePlay	voipc.h	/^int voipc_sendTonePlay(int endpt, EPSIG tone, int time);$/;"	p	signature:(int endpt, EPSIG tone, int time)
+voipc_shutdownSocket	voipc.c	/^int voipc_shutdownSocket()$/;"	f
+voipc_shutdownSocket	voipc.h	/^int voipc_shutdownSocket();$/;"	p	signature:()
+waitMsg	voipc.c	/^LOCAL int waitMsg(VOIP_DSPMSG_CMD cmd)$/;"	f	signature:(VOIP_DSPMSG_CMD cmd)

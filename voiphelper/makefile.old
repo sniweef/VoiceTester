@@ -1,0 +1,30 @@
+SRCDIR = ./src
+CLIDIR = $(SRCDIR)/cli
+BASEDIR = $(SRCDIR)/base
+VOIPCDIR = $(SRCDIR)/voiphelper
+OBJDIR = ./obj
+DEFINES = -DCX_DEBUG -DVOIP_CFG_ALL
+CFLAGS = -g -Wall $(DEFINES) -I $(SRCDIR)
+LFLAGS = -lreadline -ltermcap -lpthread
+
+
+vc_helper : hzg_string.o socket.o voiphelper_main.o cli_main.o cli_cmdmap.o
+	gcc -o vc_helper $(OBJDIR)/hzg_string.o $(OBJDIR)/socket.o $(OBJDIR)/voiphelper_main.o $(OBJDIR)/cli_main.o $(OBJDIR)/cli_cmdmap.o $(LFLAGS)
+
+hzg_string.o :
+	gcc $(CFLAGS) -c $(BASEDIR)/hzg_string.c -o $(OBJDIR)/hzg_string.o 
+
+socket.o :
+	gcc $(CFLAGS) -c $(BASEDIR)/socket.c -o $(OBJDIR)/socket.o 
+
+voiphelper_main.o : 
+	gcc $(CFLAGS) -c $(VOIPCDIR)/voiphelper_main.c -o $(OBJDIR)/voiphelper_main.o
+
+cli_main.o:
+	gcc $(CFLAGS) -c $(CLIDIR)/cli_main.c -o $(OBJDIR)/cli_main.o
+
+cli_cmdmap.o:
+	gcc $(CFLAGS) -c $(CLIDIR)/cli_cmdmap.c -o $(OBJDIR)/cli_cmdmap.o
+
+clean:
+	rm -rf $(OBJDIR)/*
